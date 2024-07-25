@@ -11,9 +11,17 @@
 
 联机使用自己的角色出现 **这个角色属于另一位玩家** 提示后，让主机关闭存档，运行 `StardewValleyFix.exe` ，出现一闪而过的黑色窗口后，再打开存档。
 
+### 手动编译
+
+```
+xmake
+```
+
+或自行整理成单个 `.cpp` 文件再编译。
+
 ### 基本原理
 
-把存档文件中的 `<userID>1145141919810</userID>` 替换成 `<userID />`。
+把存档文件中的 `<userID>1145141919810</userID>` （类似这样，数字可能不同） 替换成 `<userID />`。
 
 手动修复的操作细节详见我的博客上的 [这篇文章](https://keqing.moe/posts/stardew-valley-multiplay-bug-fix/)。
 
