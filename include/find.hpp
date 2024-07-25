@@ -19,8 +19,6 @@ inline auto find(string home_path){
         if(!dir_entry.is_regular_file())continue;
         if(!regex_match(dir_entry.path().filename().string(),findreg))continue;
         results.emplace_back(dir_entry.path());
-        // if (auto l{dir_entry.path().string().length()}; entry_length < l)
-        //     entry_length = l;
     }
     return results;
 }
