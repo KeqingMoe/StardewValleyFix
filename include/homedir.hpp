@@ -6,5 +6,6 @@ using namespace std;
 
 inline string homedir()
 {
-    return getenv("USERPROFILE");
+    //return getenv("USERPROFILE");
+    return getenv("HOME");
 }

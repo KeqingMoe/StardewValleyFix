@@ -3,24 +3,31 @@
 #include <fstream>
 #include <iterator>
 #include <regex>
+#include <iostream>
 
 using namespace std;
 
-namespace fs=filesystem;
 
 const std::regex fixreg(R"(<userID>\d*</userID>)");
 
-inline void fix(fs::path path)
+inline void fix(const std::string& path)
 {
-    auto bak_path=format("{}.bak",path.string());
-    fs::copy_file(path,bak_path,fs::copy_options::overwrite_existing);
+    string bak_path = path + ".bak";
+    
+    ifstream src(path, ios::binary);
+    ofstream dst(bak_path, ios::binary);
+    dst << src.rdbuf();
+    src.close();
+    dst.close();
 
     ifstream fin(bak_path);
-    std::istreambuf_iterator<char> beg(fin), end;
-    auto content=string{beg,end};
+    istreambuf_iterator<char> beg(fin), end;
+    auto content = string{beg, end};
+    fin.close();
 
     ofstream fout{path};
-    std::ostreambuf_iterator<char> it{fout};
+    ostream_iterator<char> it{fout};
 
-    std::regex_replace(it,content.begin(),content.end(),fixreg,"<userID />");
+    regex_replace(it,content.begin(),content.end(),fixreg,"<userID />");
+    fout.close();
 }
