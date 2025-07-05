@@ -39,7 +39,12 @@ auto main() -> int
     for (auto&& save : saves) {
         std::println();
 
-        auto rel = save.lexically_relative(path).string();
+        auto rel = [&] {
+            auto s = save.lexically_relative(path).u8string();
+            auto first = reinterpret_cast<char*>(s.begin().base());
+            auto last = reinterpret_cast<char*>(s.end().base());
+            return std::string{first, last};
+        }();
         std::println("是否需要修复 {}", rel);
 
         auto op = std::string{};
