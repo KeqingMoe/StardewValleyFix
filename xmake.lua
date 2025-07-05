@@ -4,7 +4,6 @@ set_languages("c++26")
 add_rules("plugin.compile_commands.autoupdate")
 
 set_toolchains("llvm")
-set_plat("mingw")
 set_runtimes("c++_static")
 
 target("StardewValleyFix")
