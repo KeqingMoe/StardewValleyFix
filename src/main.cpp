@@ -1,14 +1,25 @@
 import std;
 
+auto saves_path() -> std::string
+{
+#ifdef STARDEWVALLEY_WINDOWS
+    return std::format(R"({}\AppData\Roaming\StardewValley\Saves)", std::getenv("USERPROFILE"));
+#endif
+#ifdef STARDEWVALLEY_MACOS
+    return std::format("{}/.config/StardewValley/Saves", std::getenv("HOME"));
+#endif
+#ifdef STARDEWVALLEY_UNSUPPORTED
+#error 不支持的平台
+#endif
+}
+
 namespace fs = std::filesystem;
 
 auto main() -> int
 {
-    auto home_path = std::string{std::getenv("USERPROFILE")};
-
     auto reg_find = std::regex{R"(^(?!SaveGameInfo)(?!.*(_old|\.vdf|\.bak)$).+$)"};
-    auto path     = std::format(R"({}\AppData\Roaming\StardewValley\Saves)", home_path);
-    auto saves    = std::vector<fs::path>{};
+    auto path  = saves_path();
+    auto saves = std::vector<fs::path>{};
     for (auto& dir_entry : fs::recursive_directory_iterator(path)) {
         if (!dir_entry.is_regular_file()) {
             continue;
